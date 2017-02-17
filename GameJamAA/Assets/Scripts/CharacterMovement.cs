@@ -30,7 +30,7 @@ public class CharacterMovement : MonoBehaviour {
 			if(!onFloor){
 				scaleParameter = .1f;
 			}
-			rigid.AddForce (Vector3.right * moveSide * moveSpeed * scaleParameter, ForceMode.Impulse);
+			rigid.AddForce (transform.right * moveSide * moveSpeed * scaleParameter, ForceMode.Impulse);
 		}
 
 		if (moveFront != 0) {
@@ -38,7 +38,9 @@ public class CharacterMovement : MonoBehaviour {
 			if(!onFloor){
 				scaleParameter = .1f;
 			}
-			rigid.AddForce (Vector3.forward * moveFront * moveSpeed * scaleParameter, ForceMode.Impulse);
+			Debug.Log ("Force: " + moveFront * moveSpeed * scaleParameter);
+
+			rigid.AddForce (transform.forward * moveFront * moveSpeed * scaleParameter, ForceMode.Impulse);
 		}
 	}
 
