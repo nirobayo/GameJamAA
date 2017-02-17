@@ -6,24 +6,33 @@ using UnityEngine;
 public class Damage : MonoBehaviour {
 
 	[SerializeField] float maxHealth;
+	float deathExplosionForce = 200f;
+	float deathExplosionRadius = 20f;
+
 	float health;
 
 	void Start () {
 		health = maxHealth;
 	}
-	/*
+
 	void OnCollisionEnter(Collision other){
 		if (other.gameObject.CompareTag ("Bala")) {
 			if (--health == 0) {
 				Die ();
 			}
 		}
-	}*/
+	}
 
+
+	[ContextMenu("Die")]
 	void Die(){
-		Debug.Log("ME MUERO AAAAA");
+		for (int i = 0; i < transform.childCount; i++) {
+			Rigidbody rigid = transform.GetChild (i).gameObject.AddComponent<Rigidbody> ();
+			rigid.AddExplosionForce (deathExplosionForce, transform.position, deathExplosionRadius);
+		}
 
-		//TODO separar las piezas del objeto haciendo que de todas el parent sea null
+		transform.DetachChildren ();
+		Destroy (gameObject);
 	}
 
 }

@@ -38,7 +38,6 @@ public class CharacterMovement : MonoBehaviour {
 			if(!onFloor){
 				scaleParameter = .1f;
 			}
-			Debug.Log ("Force: " + moveFront * moveSpeed * scaleParameter);
 
 			rigid.AddForce (transform.forward * moveFront * moveSpeed * scaleParameter, ForceMode.Impulse);
 		}
