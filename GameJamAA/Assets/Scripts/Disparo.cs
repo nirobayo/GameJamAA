@@ -10,12 +10,14 @@ public class Disparo : MonoBehaviour {
 	List<GameObject> cargador = new List<GameObject>();
 	[SerializeField]
 	int municion;
+	[SerializeField]
+	GameObject pistola;
 
 	int _municion;
-
 	void Start()
 	{
-		GameObject _bala = Instantiate (bala, transform.GetChild(0).position, transform.rotation, gameObject.transform.GetChild(0));
+		//Cursor.lockState = CursorLockMode.Locked;
+		GameObject _bala = Instantiate (bala, pistola.transform.position, pistola.transform.rotation);
 		cargador.Add (_bala);
 		cargador [0].SetActive (false);
 		_municion = municion;
@@ -26,7 +28,7 @@ public class Disparo : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.Mouse0)) 
 		{
 			if(_municion>0)
-			Disparando ();
+			 Disparando ();
 		}
 
 		if (Input.GetButtonDown ("Fire2"))
@@ -56,7 +58,7 @@ public class Disparo : MonoBehaviour {
 
 	GameObject NuevaBala()
 	{
-		GameObject _bala = Instantiate (bala, transform.GetChild(0).position, transform.rotation, gameObject.transform.GetChild (0));
+		GameObject _bala = Instantiate (bala, pistola.transform.position, pistola.transform.rotation);
 		cargador.Add (_bala);
 		return _bala;
 	}
