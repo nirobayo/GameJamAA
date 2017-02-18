@@ -26,13 +26,31 @@ public class Damage : MonoBehaviour {
 
 	[ContextMenu("Die")]
 	void Die(){
-		for (int i = 0; i < transform.childCount; i++) {
+
+		for (int i = transform.childCount - 1; i >= 0 ; i--) {
+			KillMe (transform.GetChild (i));
+		}
+
+		Destroy (gameObject);
+
+		/*for (int i = 0; i < transform.childCount; i++) {
 			Rigidbody rigid = transform.GetChild (i).gameObject.AddComponent<Rigidbody> ();
 			rigid.AddExplosionForce (deathExplosionForce, transform.position, deathExplosionRadius);
 		}
 
-		transform.DetachChildren ();
-		Destroy (gameObject);
+		transform.DetachChildren ();*/
+	}
+
+	void KillMe(Transform item){
+		if (item.childCount != 0) {
+			for (int j = item.childCount - 1; j>= 0 ; j--) {
+				KillMe (item.GetChild (j));
+			}
+		}
+
+		item.SetParent (null);
+		Rigidbody rigid = item.gameObject.AddComponent<Rigidbody> ();
+		rigid.AddExplosionForce (deathExplosionForce, transform.position, deathExplosionRadius);
 	}
 
 }
