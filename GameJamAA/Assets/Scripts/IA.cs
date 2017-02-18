@@ -9,17 +9,19 @@ public class IA : MonoBehaviour {
 
 	[SerializeField]
 	Transform[] patrulla;
-	int puntoRuta;
-	Animator anim;
-	bool detectado;
 	[SerializeField]
 	GameObject[] bala;
 	[SerializeField]
 	GameObject pistola;
-	public static GameObject pistolaEnemigo;
 
+
+	public static GameObject pistolaEnemigo;
 	float retardo;
 	int municion=1;
+	bool detectado;
+	bool buscando;
+	Animator anim;
+	int puntoRuta;
 
 	void Start()
 	{
@@ -37,21 +39,20 @@ public class IA : MonoBehaviour {
 		}
 		else 
 		{
-			if (navMesh.remainingDistance < 0.25)
-				Siguiente ();	
-			if (navMesh.remainingDistance > 5 && detectado) {				
-				Corriendo ();
-			} else if (navMesh.remainingDistance < 5 && detectado) {
-				DisparoParado ();
-			} 
+			if (!buscando) {
+				if (navMesh.remainingDistance < 0.25)
+					Siguiente ();	
+				if (navMesh.remainingDistance > 5 && detectado) {				
+					Corriendo ();
+				} else if (navMesh.remainingDistance < 5 && detectado) {
+					DisparoParado ();
+				} 
+			}
+			else 
+			{
+				Busqueda ();			
+			}
 		}
-	}
-		
-	void Siguiente()
-	{
-		if (patrulla.Length == 0)
-			return;
-		navMesh.SetDestination (patrulla[Random.Range(0,patrulla.Length)].position);
 	}
 
 	void OnTriggerEnter(Collider other)
@@ -60,13 +61,27 @@ public class IA : MonoBehaviour {
 		{
 		 detectado = true;		 
 		}
+
+		if (other.CompareTag ("Ruido")) 
+		{
+			buscando = true;
+			navMesh.SetDestination (other.transform.position);
+		}
+	}
+	#region Acciones
+
+	void Siguiente()
+	{
+		buscando = false;
+		if (patrulla.Length == 0)
+			return;
+		navMesh.SetDestination (patrulla[Random.Range(0,patrulla.Length)].position);
+		navMesh.speed = 1;
 	}
 
 	void DisparoParado()
 	{
-		/*if (anim.GetFloat ("Estados") != 2 ) {
-			anim.SetFloat ("Estados", 2);	
-		}	*/	
+		buscando = false;
 		navMesh.speed = 0;
 		transform.LookAt (GameObject.FindWithTag ("Player").transform);	
 		navMesh.SetDestination (GameObject.FindWithTag ("Player").transform.position);
@@ -75,6 +90,7 @@ public class IA : MonoBehaviour {
 
     void Corriendo()
 	 {	
+		buscando = false;
 		if (anim.GetFloat ("Estados") != 1 ) {
 			anim.SetFloat ("Estados", 1);	
 		}	
@@ -83,22 +99,21 @@ public class IA : MonoBehaviour {
 		navMesh.SetDestination (GameObject.FindWithTag ("Player").transform.position);
 
 	}
-
-	[ContextMenu ("Huye")]
+		
 	void Huyendo()
 	{
+		buscando = false;
 		if (anim.GetFloat ("Estados") != 5 ) {
 			anim.SetFloat ("Estados", 5);	
 		}
 		//transform.LookAt (GameObject.FindWithTag ("Player").transform);	
 		navMesh.speed = 3;
 		navMesh.SetDestination (new Vector3(transform.position.x,transform.position.y,-transform.localPosition.z * -2));
-		
 	}
 
 	void Disparo()
 	{
-		
+		buscando = false;
 		retardo += Time.deltaTime;
 		if (retardo > 0 && retardo < 0.3f)
 		{
@@ -112,7 +127,31 @@ public class IA : MonoBehaviour {
 		} else if (retardo >= 1) {
 			retardo = 0;
 			municion = 1;
+		}		
+	}
+
+	void Busqueda()
+	{
+		if (anim.GetFloat ("Estados") != 3) {
+			anim.SetFloat ("Estados", 3);	
+			navMesh.speed = 3;
 		}
-		
+
+		if (navMesh.remainingDistance < 0.25f) 
+		{
+			if (anim.GetFloat ("Estados") != 4) {
+				anim.SetFloat ("Estados", 4);	
+			}
+			navMesh.speed = 0;
+			StartCoroutine ("TerminaBusqueda");
+		}
+	}
+
+	#endregion
+
+	IEnumerator TerminaBusqueda()
+	{
+		yield return new WaitForSeconds (3);
+		Siguiente();
 	}
 }

@@ -49,9 +49,16 @@ public class Disparo : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.Mouse0) && currCooldown <= 0f) 
 		{
 			currCooldown = maxCooldown;
-			if(_municion>0)
-			 Disparando ();
+			if (_municion > 0)
+			{
+				Disparando ();
+				pistola.GetComponent<SphereCollider> ().radius = 1.4f;  
+			}
+
 		}
+
+		if(Input.GetKeyUp (KeyCode.Mouse0))
+			pistola.GetComponent<SphereCollider> ().radius = 0.02f;
 
 		if (Input.GetButtonDown ("Fire2"))
 		{
