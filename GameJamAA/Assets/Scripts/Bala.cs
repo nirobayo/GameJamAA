@@ -22,10 +22,11 @@ public class Bala : MonoBehaviour {
 			StartCoroutine ("Desactivacion");
 		} else {
 			pistola = IA.pistolaEnemigo;
-			transform.position =  IA.pistolaEnemigo.transform.position;
+			transform.position = IA.pistolaEnemigo.transform.position;
+			transform.LookAt (GameObject.FindWithTag ("Player").transform.position);
 			transform.GetComponent<Rigidbody> ().WakeUp ();
 			transform.GetComponent<Rigidbody> ().isKinematic = false;
-			transform.GetComponent<Rigidbody> ().AddForce ( IA.pistolaEnemigo.transform.forward * velocidad, ForceMode.Impulse);
+			transform.GetComponent<Rigidbody> ().AddForce (transform.forward * velocidad, ForceMode.Impulse);
 			StartCoroutine ("Desactivacion");
 		}
 	}

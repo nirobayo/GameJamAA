@@ -13,23 +13,24 @@ public class IA : MonoBehaviour {
 	Animator anim;
 	bool detectado;
 	[SerializeField]
-	GameObject bala;
+	GameObject[] bala;
 	[SerializeField]
 	GameObject pistola;
 	public static GameObject pistolaEnemigo;
 
+	float retardo;
+	int municion=1;
 
 	void Start()
 	{
 		navMesh = GetComponent<NavMeshAgent> ();
 		Siguiente ();
 		anim = GetComponent<Animator> ();
-		pistolaEnemigo = pistola;
 	}
 
 	void Update () 
 	{		
-		
+		pistolaEnemigo = pistola;
 		if (Damage.healthRunaway <= 2) 
 		{
 			Huyendo ();
@@ -63,9 +64,9 @@ public class IA : MonoBehaviour {
 
 	void DisparoParado()
 	{
-		if (anim.GetFloat ("Estados") != 2 ) {
+		/*if (anim.GetFloat ("Estados") != 2 ) {
 			anim.SetFloat ("Estados", 2);	
-		}		
+		}	*/	
 		navMesh.speed = 0;
 		transform.LookAt (GameObject.FindWithTag ("Player").transform);	
 		navMesh.SetDestination (GameObject.FindWithTag ("Player").transform.position);
@@ -97,6 +98,21 @@ public class IA : MonoBehaviour {
 
 	void Disparo()
 	{
-		Instantiate (bala, pistola.transform.position, pistola.transform.rotation);
+		
+		retardo += Time.deltaTime;
+		if (retardo > 0 && retardo < 0.3f)
+		{
+			if (municion == 1) {
+				if (anim.GetFloat ("Estados") != 2) {
+					anim.SetFloat ("Estados", 2);	
+				}
+				Instantiate (bala [0], pistola.transform.position, pistola.transform.rotation);
+				municion--;
+			}
+		} else if (retardo >= 1) {
+			retardo = 0;
+			municion = 1;
+		}
+		
 	}
 }

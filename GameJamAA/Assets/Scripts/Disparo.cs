@@ -36,8 +36,11 @@ public class Disparo : MonoBehaviour {
 	{
 		if (Input.GetKeyDown (KeyCode.Mouse0)) 
 		{
-			if(_municion>0)
-			 Disparando ();
+			if (_municion > 0) 
+			{
+				Disparando ();
+			}
+
 		}
 
 		if (Input.GetButtonDown ("Fire2"))
