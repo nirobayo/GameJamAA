@@ -5,7 +5,6 @@ using UnityEngine;
 public class CharacterView : MonoBehaviour {
 	
 	[SerializeField] float lookSpeed;
-
 	Transform mainCamera;
 	Vector3 angle = new Vector3();
 	void Awake(){

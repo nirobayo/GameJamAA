@@ -10,6 +10,7 @@ public class Damage : MonoBehaviour {
 	float deathExplosionRadius = 20f;
 
 	float health;
+	public static float healthRunaway;
 
 	void Start () {
 		health = maxHealth;
@@ -55,6 +56,11 @@ public class Damage : MonoBehaviour {
 		if (boxCollider == null) {
 			item.gameObject.AddComponent<BoxCollider> ();
 		}
+	}
+
+	void Update()
+	{
+		healthRunaway = health;
 	}
 
 }
