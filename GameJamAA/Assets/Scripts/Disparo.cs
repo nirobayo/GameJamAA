@@ -13,6 +13,8 @@ public class Disparo : MonoBehaviour {
 	[SerializeField]
 	GameObject pistola;
 
+	Ray rayo;
+	RaycastHit hit;
 	int _municion;
 	void Start()
 	{
@@ -35,6 +37,15 @@ public class Disparo : MonoBehaviour {
 		{
 			Recargando ();
 		}
+
+		rayo = Camera.main.ScreenPointToRay (new Vector3 (Screen.width/2,Screen.height/2));
+		Debug.DrawRay (rayo.origin, rayo.direction, Color.blue);
+
+		if (Physics.Raycast (rayo, out hit)) 
+		{
+			pistola.transform.LookAt (hit.point);
+		}
+
 	}
 
 	GameObject Disparando()
