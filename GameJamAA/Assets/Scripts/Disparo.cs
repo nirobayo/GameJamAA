@@ -20,7 +20,7 @@ public class Disparo : MonoBehaviour {
 	int _municion;
 	int numeroTambores;
 
-	float maxCooldown = .4f;
+	float maxCooldown = .25f;
 	float currCooldown;
 
 	Animator anim{
