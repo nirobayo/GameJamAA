@@ -89,7 +89,7 @@ public class Disparo : MonoBehaviour {
 		nuevaBala.SetActive (true);
 		_municion--;
 		UIManager.instance.AmmoSpent (_municion);
-        return NuevaBala ();
+		return nuevaBala;
 
 	}
 

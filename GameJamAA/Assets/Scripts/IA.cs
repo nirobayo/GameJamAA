@@ -12,12 +12,19 @@ public class IA : MonoBehaviour {
 	int puntoRuta;
 	Animator anim;
 	bool detectado;
+	[SerializeField]
+	GameObject bala;
+	[SerializeField]
+	GameObject pistola;
+	public static GameObject pistolaEnemigo;
+
 
 	void Start()
 	{
 		navMesh = GetComponent<NavMeshAgent> ();
 		Siguiente ();
 		anim = GetComponent<Animator> ();
+		pistolaEnemigo = pistola;
 	}
 
 	void Update () 
@@ -62,7 +69,7 @@ public class IA : MonoBehaviour {
 		navMesh.speed = 0;
 		transform.LookAt (GameObject.FindWithTag ("Player").transform);	
 		navMesh.SetDestination (GameObject.FindWithTag ("Player").transform.position);
-
+		Disparo ();
 	}
 
     void Corriendo()
@@ -86,5 +93,10 @@ public class IA : MonoBehaviour {
 		navMesh.speed = 3;
 		navMesh.SetDestination (new Vector3(transform.position.x,transform.position.y,-transform.localPosition.z * -2));
 		
+	}
+
+	void Disparo()
+	{
+		Instantiate (bala, pistola.transform.position, pistola.transform.rotation);
 	}
 }

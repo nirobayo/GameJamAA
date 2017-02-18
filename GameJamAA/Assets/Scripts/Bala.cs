@@ -8,15 +8,26 @@ public class Bala : MonoBehaviour {
 	float velocidad = 10f;
 	[SerializeField]
 	GameObject pistola;
+	[SerializeField]
+	bool Enemigo;
 
 	void OnEnable () 
 	{
-		pistola = GameObject.Find("Pistola");
-		transform.position = GameObject.Find("Pistola").transform.position;
-		transform.GetComponent<Rigidbody> ().WakeUp ();
-		transform.GetComponent<Rigidbody> ().isKinematic = false;
-		transform.GetComponent<Rigidbody>().AddForce(GameObject.Find("Pistola").transform.forward  * velocidad ,ForceMode.Impulse);
-		StartCoroutine ("Desactivacion");
+		if (!Enemigo) {
+			pistola = GameObject.Find ("Pistola");
+			transform.position = GameObject.Find ("Pistola").transform.position;
+			transform.GetComponent<Rigidbody> ().WakeUp ();
+			transform.GetComponent<Rigidbody> ().isKinematic = false;
+			transform.GetComponent<Rigidbody> ().AddForce (GameObject.Find ("Pistola").transform.forward * velocidad, ForceMode.Impulse);
+			StartCoroutine ("Desactivacion");
+		} else {
+			pistola = IA.pistolaEnemigo;
+			transform.position =  IA.pistolaEnemigo.transform.position;
+			transform.GetComponent<Rigidbody> ().WakeUp ();
+			transform.GetComponent<Rigidbody> ().isKinematic = false;
+			transform.GetComponent<Rigidbody> ().AddForce ( IA.pistolaEnemigo.transform.forward * velocidad, ForceMode.Impulse);
+			StartCoroutine ("Desactivacion");
+		}
 	}
 
 	void OnDisable()
@@ -28,9 +39,14 @@ public class Bala : MonoBehaviour {
 	void OnCollisionEnter(Collision hit)
 	{		
 		gameObject.SetActive (false);
-		transform.position = GameObject.Find("Pistola").transform.position;
 
-			//hit.collider.GetComponent<Renderer> ().material.color = Color.red;
+		if (!Enemigo) {
+			transform.position = GameObject.Find ("Pistola").transform.position;
+			transform.rotation = GameObject.Find ("Pistola").transform.rotation;
+		} else {
+			transform.position = IA.pistolaEnemigo.transform.position;
+			transform.rotation = IA.pistolaEnemigo.transform.rotation;
+		}
 	}
 
 
@@ -38,8 +54,13 @@ public class Bala : MonoBehaviour {
 	{
 		yield return new WaitForSeconds (3);
 		gameObject.SetActive (false);
-		transform.position = GameObject.Find("Pistola").transform.position;
+
+		if (!Enemigo) {
+			transform.position = GameObject.Find ("Pistola").transform.position;
+			transform.rotation = GameObject.Find ("Pistola").transform.rotation;
+		} else {
+			transform.position = IA.pistolaEnemigo.transform.position;
+			transform.rotation = IA.pistolaEnemigo.transform.rotation;
+		}
 	}
-
-
 }
