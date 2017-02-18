@@ -22,9 +22,16 @@ public class IA : MonoBehaviour {
 	bool buscando;
 	Animator anim;
 	int puntoRuta;
+	Ray rayo;
+	RaycastHit hit;
+	[SerializeField]
+	GameObject sombrero;
+	GameObject player;
+
 
 	void Start()
 	{
+		player = GameObject.FindWithTag ("Player");
 		navMesh = GetComponent<NavMeshAgent> ();
 		Siguiente ();
 		anim = GetComponent<Animator> ();
@@ -56,13 +63,7 @@ public class IA : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other)
-	{
-		if (other.CompareTag ("Player")) 
-		{
-		    detectado = true;	
-			buscando = false;
-		}
-
+	{		
 		if (other.CompareTag ("Ruido")) 
 		{
 			if (!detectado) {
@@ -71,6 +72,21 @@ public class IA : MonoBehaviour {
 			}
 		}
 	}
+
+	void OnTriggerStay(Collider other)
+	{
+		if (other.CompareTag ("Player")) 
+		{
+			rayo.origin = sombrero.transform.position;
+			rayo.direction = player.transform.position - sombrero.transform.position;
+			if (Physics.Raycast (rayo, out hit)&&hit.collider.CompareTag("Player")) 
+			{
+				detectado = true;	
+				buscando = false;
+			}
+		}
+	}
+				
 	#region Acciones
 
 	void Siguiente()
@@ -86,8 +102,8 @@ public class IA : MonoBehaviour {
 	{
 		buscando = false;
 		navMesh.speed = 0;
-		transform.LookAt (GameObject.FindWithTag ("Player").transform);	
-		navMesh.SetDestination (GameObject.FindWithTag ("Player").transform.position);
+		transform.LookAt (player.transform);	
+		navMesh.SetDestination (player.transform.position);
 		Disparo ();
 	}
 
@@ -97,9 +113,9 @@ public class IA : MonoBehaviour {
 		if (anim.GetFloat ("Estados") != 1 ) {
 			anim.SetFloat ("Estados", 1);	
 		}	
-		transform.LookAt (GameObject.FindWithTag ("Player").transform);	
+		transform.LookAt (player.transform);	
 		navMesh.speed = 3;
-		navMesh.SetDestination (GameObject.FindWithTag ("Player").transform.position);
+		navMesh.SetDestination (player.transform.position);
 
 	}
 		
@@ -156,5 +172,8 @@ public class IA : MonoBehaviour {
 	{
 		yield return new WaitForSeconds (3);
 		Siguiente();
+		if (anim.GetFloat ("Estados") != 0) {
+			anim.SetFloat ("Estados", 0);	
+		}
 	}
 }

@@ -22,8 +22,11 @@ public class Damage : MonoBehaviour {
 			if (gameObject.CompareTag ("Player")) {
 				DamagePlayer ();
 			} else {
-					Color cor = sombrero.transform.GetComponent<Renderer> ().material.color;
-					cor.r += .25f;
+				if (gameObject.CompareTag ("Enemy")) {
+					Color cor = sombrero.GetComponent<Renderer> ().material.color;
+					cor.r += 0.25f;
+					sombrero.GetComponent<Renderer> ().material.color = cor;
+				}
 				if (--health == 0) {
 					Die ();
 				}

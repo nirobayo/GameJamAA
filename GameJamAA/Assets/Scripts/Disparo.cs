@@ -25,7 +25,7 @@ public class Disparo : MonoBehaviour {
 
 	Animator anim{
 		get{
-			return GetComponent<Animator> ();
+			return transform.GetChild(0).GetComponent<Animator> ();
 		}
 	}
 
@@ -52,14 +52,16 @@ public class Disparo : MonoBehaviour {
 			if (_municion > 0)
 			{
 				Disparando ();
+				pistola.GetComponent<SphereCollider> ().enabled = true;
 				pistola.GetComponent<SphereCollider> ().radius = 1.4f;  
 			}
 
 		}
 
-		if(Input.GetKeyUp (KeyCode.Mouse0))
+		if (Input.GetKeyUp (KeyCode.Mouse0)) {
 			pistola.GetComponent<SphereCollider> ().radius = 0.02f;
-
+			pistola.GetComponent<SphereCollider> ().enabled = false;
+		}
 		if (Input.GetButtonDown ("Fire2"))
 		{
 			Recargando ();
