@@ -29,6 +29,8 @@ public class Bala : MonoBehaviour {
 	{		
 		gameObject.SetActive (false);
 		transform.position = GameObject.Find("Pistola").transform.position;
+
+			hit.collider.GetComponent<Renderer> ().material.color = Color.red;
 	}
 
 
