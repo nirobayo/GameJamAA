@@ -39,6 +39,14 @@ public class IA : MonoBehaviour {
 		if (other.CompareTag ("Player")) 
 		{
 			anim.SetTrigger ("CorreArma");
+			navMesh.speed = 3;
+			navMesh.SetDestination (other.transform.position);
+
+			if (navMesh.remainingDistance < 3) 
+			{
+				navMesh.speed = 0;
+				anim.SetTrigger ("DisparoParado");
+			}
 		}
 	}
 }
