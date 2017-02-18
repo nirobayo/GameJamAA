@@ -5,11 +5,11 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Damage : MonoBehaviour {
 
-	[SerializeField] float maxHealth;
+	[SerializeField] int maxHealth;
 	float deathExplosionForce = 20f;
 	float deathExplosionRadius = 20f;
 
-	float health;
+	int health;
 
 	void Start () {
 		health = maxHealth;
@@ -17,9 +17,25 @@ public class Damage : MonoBehaviour {
 
 	void OnCollisionEnter(Collision other){
 		if (other.gameObject.CompareTag ("Bala")) {
-			if (--health == 0) {
-				Die ();
+			if (gameObject.CompareTag ("Player")) {
+				DamagePlayer ();
+			} else {
+				if (--health == 0) {
+					Die ();
+				}
 			}
+
+				
+		}
+	}
+
+	[ContextMenu("DamagePlayer!")]
+	void DamagePlayer(){
+		health--;
+		UIManager.instance.HealthSpent (health);
+		if (health == 0) {
+			GameManager.instance.Defeat ();
+			Die ();
 		}
 	}
 
@@ -42,6 +58,7 @@ public class Damage : MonoBehaviour {
 	}
 
 	public void RefillHealth(){
+		UIManager.instance.RefillHealth ();
 		health = maxHealth;
 	}
 
