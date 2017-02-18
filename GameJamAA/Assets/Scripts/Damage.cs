@@ -41,6 +41,10 @@ public class Damage : MonoBehaviour {
 		transform.DetachChildren ();*/
 	}
 
+	public void RefillHealth(){
+		health = maxHealth;
+	}
+
 	void KillMe(Transform item){
 		if (item.childCount != 0) {
 			for (int j = item.childCount - 1; j>= 0 ; j--) {
@@ -55,6 +59,8 @@ public class Damage : MonoBehaviour {
 		if (boxCollider == null) {
 			item.gameObject.AddComponent<BoxCollider> ();
 		}
+
+		item.gameObject.tag = "Floor";
 	}
 
 }

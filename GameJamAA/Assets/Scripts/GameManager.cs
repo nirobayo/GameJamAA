@@ -4,9 +4,23 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+	public static GameManager instance;
+
 	List<GameObject> enemies;
 
-	// Use this for initialization
+	[SerializeField] public float positiveLimitX;
+	[SerializeField] public float negativeLimitX;
+	[SerializeField] public float positiveLimitZ;
+	[SerializeField] public float negativeLimitZ;
+
+	void Awake(){
+		if (instance != null) {
+			Destroy (gameObject);
+		} else {
+			instance = this;
+		}
+	}
+
 	void Start () {
 		enemies = new List<GameObject> ();
 		enemies.AddRange(GameObject.FindGameObjectsWithTag ("Enemy"));

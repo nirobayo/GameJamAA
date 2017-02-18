@@ -6,11 +6,7 @@ public class CharacterView : MonoBehaviour {
 	
 	[SerializeField] float lookSpeed;
 
-	Transform mainCamera;
 	Vector3 angle = new Vector3();
-	void Awake(){
-		mainCamera = Camera.main.transform;
-	}
 
 	void Update () {
 		float horizontal = Input.GetAxis ("Mouse X");

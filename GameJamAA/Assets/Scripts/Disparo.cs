@@ -9,13 +9,17 @@ public class Disparo : MonoBehaviour {
 	[SerializeField]
 	List<GameObject> cargador = new List<GameObject>();
 	[SerializeField]
-	int municion;
+	int tamanyoTamborRevolver;
 	[SerializeField]
 	GameObject pistola;
+	[SerializeField]
+	int tamboresMaximos;
 
 	Ray rayo;
 	RaycastHit hit;
 	int _municion;
+	int numeroTambores;
+
 	void Start()
 	{
 		//BLOQUEAMOS EL RATON AQUI
@@ -24,7 +28,8 @@ public class Disparo : MonoBehaviour {
 		GameObject _bala = Instantiate (bala, pistola.transform.position, pistola.transform.rotation);
 		cargador.Add (_bala);
 		cargador [0].SetActive (false);
-		_municion = municion;
+		_municion = tamanyoTamborRevolver;
+		numeroTambores = tamboresMaximos;
 	}
 
 	void Update () 
@@ -78,7 +83,15 @@ public class Disparo : MonoBehaviour {
 
 	void Recargando()
 	{
-		_municion = municion;
+		if (numeroTambores >= 1) {
+			_municion = tamanyoTamborRevolver;
+			numeroTambores--;
+		}
+
+	}
+
+	public void RefillAmmo(){
+		numeroTambores = tamboresMaximos;
 	}
 
 }
