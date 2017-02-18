@@ -15,9 +15,6 @@ public class Bala : MonoBehaviour {
 	{
 		if (!Enemigo) {
 			pistola = GameObject.Find ("Pistola2");
-
-			//pistola = GameObject.Find ("Pistola");
-			Debug.Log ("Pistola",pistola);
 			transform.position = pistola.transform.position;
 			transform.GetComponent<Rigidbody> ().WakeUp ();
 			transform.GetComponent<Rigidbody> ().isKinematic = false;
