@@ -59,13 +59,16 @@ public class IA : MonoBehaviour {
 	{
 		if (other.CompareTag ("Player")) 
 		{
-		 detectado = true;		 
+		    detectado = true;	
+			buscando = false;
 		}
 
 		if (other.CompareTag ("Ruido")) 
 		{
-			buscando = true;
-			navMesh.SetDestination (other.transform.position);
+			if (!detectado) {
+				buscando = true;
+				navMesh.SetDestination (other.transform.position);
+			}
 		}
 	}
 	#region Acciones

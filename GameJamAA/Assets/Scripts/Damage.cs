@@ -8,7 +8,8 @@ public class Damage : MonoBehaviour {
 	[SerializeField] int maxHealth;
 	float deathExplosionForce = 20f;
 	float deathExplosionRadius = 20f;
-
+	[SerializeField]
+	GameObject sombrero;
 	int health;
 	public static float healthRunaway;
 
@@ -21,6 +22,8 @@ public class Damage : MonoBehaviour {
 			if (gameObject.CompareTag ("Player")) {
 				DamagePlayer ();
 			} else {
+					Color cor = sombrero.transform.GetComponent<Renderer> ().material.color;
+					cor.r += .25f;
 				if (--health == 0) {
 					Die ();
 				}
@@ -28,18 +31,18 @@ public class Damage : MonoBehaviour {
 		}
 	}
 
-	[ContextMenu("DamagePlayer!")]
+	//[ContextMenu("DamagePlayer!")]
 	void DamagePlayer(){
 		health--;
 		UIManager.instance.HealthSpent (health);
 		if (health == 0) {
 			GameManager.instance.Defeat ();
-			//Die ();
+			Die ();
 		}
 	}
 
 
-	[ContextMenu("Die")]
+	//[ContextMenu("Die")]
 	void Die(){
 
 		for (int i = transform.childCount - 1; i >= 0 ; i--) {
@@ -67,7 +70,7 @@ public class Damage : MonoBehaviour {
 				KillMe (item.GetChild (j));
 			}
 		}
-		if (item.GetComponent<MeshRenderer> () == null) {
+		if (item.GetComponent<MeshRenderer> () == null && item.GetComponent<Camera>()==null) {
 			Destroy (item.gameObject);
 		} else {
 			item.SetParent (null);
