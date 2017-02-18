@@ -19,11 +19,18 @@ public class CharacterView : MonoBehaviour {
 		angle.x += -vertical * lookSpeed;
 		angle.y += horizontal * lookSpeed;
 
-		if (angle.x < 300f && angle.x > 180f) {
-			angle.x = 300f;
+		float angleXMod = angle.x;
+		while (angleXMod < 0) {
+			angleXMod += 360f;
+		}
+		while (angleXMod > 360) {
+			angleXMod -= 360f;
+		}
 
-		} else if (angle.x > 60f && angle.x < 180f) {
-			angle.x = 60f;
+		if (angleXMod < 300f && angleXMod > 180f) {
+			angle.x = 300f;
+		} else if (angleXMod > 30f && angleXMod < 180f) {
+			angle.x = 30f;
 		}
 
 		//transform.Rotate (0f,horizontal * lookSpeed,0f);

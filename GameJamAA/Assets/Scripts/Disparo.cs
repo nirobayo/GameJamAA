@@ -18,7 +18,9 @@ public class Disparo : MonoBehaviour {
 	int _municion;
 	void Start()
 	{
+		//BLOQUEAMOS EL RATON AQUI
 		//Cursor.lockState = CursorLockMode.Locked;
+
 		GameObject _bala = Instantiate (bala, pistola.transform.position, pistola.transform.rotation);
 		cargador.Add (_bala);
 		cargador [0].SetActive (false);
