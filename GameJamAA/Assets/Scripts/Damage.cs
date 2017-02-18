@@ -6,7 +6,7 @@ using UnityEngine;
 public class Damage : MonoBehaviour {
 
 	[SerializeField] float maxHealth;
-	float deathExplosionForce = 200f;
+	float deathExplosionForce = 20f;
 	float deathExplosionRadius = 20f;
 
 	float health;
@@ -51,16 +51,20 @@ public class Damage : MonoBehaviour {
 				KillMe (item.GetChild (j));
 			}
 		}
+		if (item.GetComponent<MeshRenderer> () == null) {
+			Destroy (item.gameObject);
+		} else {
+			item.SetParent (null);
+			Rigidbody rigid = item.gameObject.AddComponent<Rigidbody> ();
+			rigid.AddExplosionForce (deathExplosionForce, transform.position, deathExplosionRadius);
+			BoxCollider boxCollider = item.gameObject.GetComponent<BoxCollider> ();
+			if (boxCollider == null) {
+				item.gameObject.AddComponent<BoxCollider> ();
+			}
 
-		item.SetParent (null);
-		Rigidbody rigid = item.gameObject.AddComponent<Rigidbody> ();
-		rigid.AddExplosionForce (deathExplosionForce, transform.position, deathExplosionRadius);
-		BoxCollider boxCollider = item.gameObject.GetComponent<BoxCollider> ();
-		if (boxCollider == null) {
-			item.gameObject.AddComponent<BoxCollider> ();
+			item.gameObject.tag = "Floor";
 		}
 
-		item.gameObject.tag = "Floor";
 	}
 
 }

@@ -63,6 +63,7 @@ public class Disparo : MonoBehaviour {
 			{
 				_balas.SetActive (true);
 				_municion--;
+				UIManager.instance.AmmoSpent (_municion);
 				return _balas;
 			}
 		}
@@ -70,6 +71,7 @@ public class Disparo : MonoBehaviour {
 		GameObject nuevaBala = NuevaBala ();
 		nuevaBala.SetActive (true);
 		_municion--;
+		UIManager.instance.AmmoSpent (_municion);
         return NuevaBala ();
 
 	}
@@ -86,11 +88,14 @@ public class Disparo : MonoBehaviour {
 		if (numeroTambores >= 1) {
 			_municion = tamanyoTamborRevolver;
 			numeroTambores--;
+			UIManager.instance.RefillBullets ();
+			UIManager.instance.MagazineSpent (numeroTambores);
 		}
 
 	}
 
 	public void RefillAmmo(){
+		UIManager.instance.RefillMagazines ();
 		numeroTambores = tamboresMaximos;
 	}
 

@@ -38,18 +38,18 @@ public class UIManager : MonoBehaviour {
 		}
 	}
 
-	public void UpdateHealth(int newHealth){
-		health[newHealth+1].gameObject.SetActive(false);
+	public void HealthSpent(int newHealth){
+		health[newHealth].gameObject.SetActive(false);
 	}
 
 	public void MagazineSpent(int newMagazineCount){
-		magazines[newMagazineCount+1].gameObject.SetActive(false);
+		magazines[newMagazineCount].gameObject.SetActive(false);
 	}
 
 	public void AmmoSpent(int ammoCount){
 		//aqui en realidad solo debemos quitar una bala
 		//la bala a quitar es ammoCount+1!
-		bullets[ammoCount+1].gameObject.SetActive(false);
+		bullets[ammoCount].gameObject.SetActive(false);
 	}
 
 	public void RefillHealth(){
