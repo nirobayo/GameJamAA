@@ -51,6 +51,10 @@ public class Damage : MonoBehaviour {
 		item.SetParent (null);
 		Rigidbody rigid = item.gameObject.AddComponent<Rigidbody> ();
 		rigid.AddExplosionForce (deathExplosionForce, transform.position, deathExplosionRadius);
+		BoxCollider boxCollider = item.gameObject.GetComponent<BoxCollider> ();
+		if (boxCollider == null) {
+			item.gameObject.AddComponent<BoxCollider> ();
+		}
 	}
 
 }
