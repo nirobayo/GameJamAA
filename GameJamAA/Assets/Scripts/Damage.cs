@@ -10,6 +10,7 @@ public class Damage : MonoBehaviour {
 	float deathExplosionRadius = 20f;
 
 	int health;
+	public static float healthRunaway;
 
 	void Start () {
 		health = maxHealth;
@@ -82,6 +83,11 @@ public class Damage : MonoBehaviour {
 			item.gameObject.tag = "Floor";
 		}
 
+	}
+
+	void Update()
+	{
+		healthRunaway = health;
 	}
 
 }

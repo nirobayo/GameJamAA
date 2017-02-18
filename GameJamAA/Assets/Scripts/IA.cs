@@ -11,7 +11,7 @@ public class IA : MonoBehaviour {
 	Transform[] patrulla;
 	int puntoRuta;
 	Animator anim;
-
+	bool detectado;
 
 	void Start()
 	{
@@ -22,8 +22,21 @@ public class IA : MonoBehaviour {
 
 	void Update () 
 	{		
-		if (navMesh.remainingDistance < 0.25)
-			Siguiente ();			
+		
+		if (Damage.healthRunaway <= 2) 
+		{
+			Huyendo ();
+		}
+		else 
+		{
+			if (navMesh.remainingDistance < 0.25)
+				Siguiente ();	
+			if (navMesh.remainingDistance > 5 && detectado) {				
+				Corriendo ();
+			} else if (navMesh.remainingDistance < 5 && detectado) {
+				DisparoParado ();
+			} 
+		}
 	}
 		
 	void Siguiente()
@@ -31,22 +44,47 @@ public class IA : MonoBehaviour {
 		if (patrulla.Length == 0)
 			return;
 		navMesh.SetDestination (patrulla[Random.Range(0,patrulla.Length)].position);
-		//puntoRuta = (puntoRuta + 1) % patrulla.Length;
 	}
 
 	void OnTriggerEnter(Collider other)
 	{
 		if (other.CompareTag ("Player")) 
 		{
-			anim.SetTrigger ("CorreArma");
-			navMesh.speed = 3;
-			navMesh.SetDestination (other.transform.position);
-
-			if (navMesh.remainingDistance < 3) 
-			{
-				navMesh.speed = 0;
-				anim.SetTrigger ("DisparoParado");
-			}
+		 detectado = true;		 
 		}
+	}
+
+	void DisparoParado()
+	{
+		if (anim.GetFloat ("Estados") != 2 ) {
+			anim.SetFloat ("Estados", 2);	
+		}		
+		navMesh.speed = 0;
+		transform.LookAt (GameObject.FindWithTag ("Player").transform);	
+		navMesh.SetDestination (GameObject.FindWithTag ("Player").transform.position);
+
+	}
+
+    void Corriendo()
+	 {	
+		if (anim.GetFloat ("Estados") != 1 ) {
+			anim.SetFloat ("Estados", 1);	
+		}	
+		transform.LookAt (GameObject.FindWithTag ("Player").transform);	
+		navMesh.speed = 3;
+		navMesh.SetDestination (GameObject.FindWithTag ("Player").transform.position);
+
+	}
+
+	[ContextMenu ("Huye")]
+	void Huyendo()
+	{
+		if (anim.GetFloat ("Estados") != 5 ) {
+			anim.SetFloat ("Estados", 5);	
+		}
+		//transform.LookAt (GameObject.FindWithTag ("Player").transform);	
+		navMesh.speed = 3;
+		navMesh.SetDestination (new Vector3(transform.position.x,transform.position.y,-transform.localPosition.z * -2));
+		
 	}
 }

@@ -53,7 +53,24 @@ public class Disparo : MonoBehaviour {
 			pistola.transform.LookAt (hit.point);
 		}
 
+		#if UNITY_EDITOR
+		if(Input.GetKeyDown(KeyCode.C))
+		{
+			bool mouse = false;
+			mouse=!mouse;
+
+			if(mouse)
+				Cursor.lockState = CursorLockMode.Locked;
+			else
+			{
+				Cursor.lockState = CursorLockMode.None;
+				Cursor.visible=true;
+			}	
+		}
+		#endif
 	}
+
+
 
 	GameObject Disparando()
 	{		
