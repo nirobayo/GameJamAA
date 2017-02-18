@@ -20,6 +20,15 @@ public class Disparo : MonoBehaviour {
 	int _municion;
 	int numeroTambores;
 
+	float maxCooldown = .25f;
+	float currCooldown;
+
+	Animator anim{
+		get{
+			return GetComponent<Animator> ();
+		}
+	}
+
 	void Start()
 	{
 		//BLOQUEAMOS EL RATON AQUI
@@ -30,17 +39,18 @@ public class Disparo : MonoBehaviour {
 		cargador [0].SetActive (false);
 		_municion = tamanyoTamborRevolver;
 		numeroTambores = tamboresMaximos;
+
+		currCooldown = maxCooldown;
 	}
 
 	void Update () 
 	{
-		if (Input.GetKeyDown (KeyCode.Mouse0)) 
+		currCooldown -= Time.deltaTime;
+		if (Input.GetKeyDown (KeyCode.Mouse0) && currCooldown <= 0f) 
 		{
-			if (_municion > 0) 
-			{
-				Disparando ();
-			}
-
+			currCooldown = maxCooldown;
+			if(_municion>0)
+			 Disparando ();
 		}
 
 		if (Input.GetButtonDown ("Fire2"))
@@ -82,18 +92,41 @@ public class Disparo : MonoBehaviour {
 			if (!_balas.activeSelf) 
 			{
 				_balas.SetActive (true);
-				_municion--;
-				UIManager.instance.AmmoSpent (_municion);
+				ShootingParams ();
 				return _balas;
 			}
 		}
 
 		GameObject nuevaBala = NuevaBala ();
 		nuevaBala.SetActive (true);
-		_municion--;
-		UIManager.instance.AmmoSpent (_municion);
+		ShootingParams ();
 		return nuevaBala;
 
+	}
+
+	void ShootingParams(){
+		_municion--;
+		UIManager.instance.AmmoSpent (_municion);
+		//GetComponent<Animator> ().SetFloat ("AnimParam", 2f); //dispara
+		anim.SetTrigger("Shoot");
+		if (_municion == 0) {
+			anim.SetTrigger ("FuckYou");
+			//StartCoroutine ("Insult");
+		} /*else {
+			StartCoroutine ("ReturnToAiming");
+		}*/
+	}
+
+	IEnumerator Insult(){
+		yield return new WaitForSeconds (1f);
+		//GetComponent<Animator> ().SetFloat ("AnimParam", 1f); //insult
+		anim.SetTrigger("FuckYou");
+		//StartCoroutine ("ReturnToAiming");
+	}
+
+	IEnumerator ReturnToAiming(){
+		yield return new WaitForSeconds (1f);
+		//GetComponent<Animator> ().SetFloat ("AnimParam", 0f); //aim
 	}
 
 	GameObject NuevaBala()
@@ -106,6 +139,7 @@ public class Disparo : MonoBehaviour {
 	void Recargando()
 	{
 		if (numeroTambores >= 1) {
+			anim.SetTrigger ("Reload");
 			_municion = tamanyoTamborRevolver;
 			numeroTambores--;
 			UIManager.instance.RefillBullets ();

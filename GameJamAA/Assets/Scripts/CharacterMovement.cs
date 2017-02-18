@@ -22,15 +22,17 @@ public class CharacterMovement : MonoBehaviour {
 
 	void FixedUpdate (){
 		if (jump && onFloor) {
-			rigid.AddForce (Vector3.up * jumpSpeed, ForceMode.Impulse);
+			
+			rigid.AddForce (Vector3.up * jumpSpeed, ForceMode.VelocityChange);
 		}
-
+		/*
 		if (moveSide != 0) {
 			float scaleParameter = 1f;
 			if(!onFloor){
 				scaleParameter = .1f;
 			}
-			rigid.AddForce (transform.right * moveSide * moveSpeed * scaleParameter, ForceMode.Impulse);
+			transform.Translate (transform.right * moveSide * moveSpeed * scaleParameter);
+			//rigid.AddForce (transform.right * moveSide * moveSpeed * scaleParameter, ForceMode.Impulse);
 		}
 
 		if (moveFront != 0) {
@@ -39,8 +41,9 @@ public class CharacterMovement : MonoBehaviour {
 				scaleParameter = .1f;
 			}
 
-			rigid.AddForce (transform.forward * moveFront * moveSpeed * scaleParameter, ForceMode.Impulse);
-		}
+			//rigid.AddForce (transform.forward * moveFront * moveSpeed * scaleParameter, ForceMode.Impulse);
+			transform.Translate (transform.forward * moveFront * moveSpeed * scaleParameter);
+		}*/
 	}
 
 	void Update () {
@@ -50,18 +53,21 @@ public class CharacterMovement : MonoBehaviour {
 			jump = false;
 		}
 
-		float side = Input.GetAxisRaw ("Horizontal");
-		if (side != 0) {
-			moveSide = Mathf.FloorToInt(side);
-		} else {
-			moveSide = 0;
+		float front = Input.GetAxis ("Vertical");
+		if (front != 0) {
+			transform.Translate (0,0,front * moveSpeed * Time.deltaTime);
 		}
 
-		float front = Input.GetAxisRaw ("Vertical");
+		float side = Input.GetAxis ("Horizontal");
+		if (side != 0) {
+			transform.Translate (side * moveSpeed * Time.deltaTime,0,0);
+		}
+
+		/*float front = Input.GetAxis ("Vertical");
 		if (front != 0) {
 			moveFront = Mathf.FloorToInt(front);
 		} else {
 			moveFront = 0;
-		}
+		}*/
 	}
 }

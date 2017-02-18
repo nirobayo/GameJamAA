@@ -14,11 +14,11 @@ public class Bala : MonoBehaviour {
 	void OnEnable () 
 	{
 		if (!Enemigo) {
-			pistola = GameObject.Find ("Pistola");
-			transform.position = GameObject.Find ("Pistola").transform.position;
+			pistola = GameObject.Find ("Pistola2");
+			transform.position = pistola.transform.position;
 			transform.GetComponent<Rigidbody> ().WakeUp ();
 			transform.GetComponent<Rigidbody> ().isKinematic = false;
-			transform.GetComponent<Rigidbody> ().AddForce (GameObject.Find ("Pistola").transform.forward * velocidad, ForceMode.Impulse);
+			transform.GetComponent<Rigidbody> ().AddForce (pistola.transform.forward * velocidad, ForceMode.Impulse);
 			StartCoroutine ("Desactivacion");
 		} else {
 			pistola = IA.pistolaEnemigo;
