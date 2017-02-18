@@ -24,9 +24,7 @@ public class Damage : MonoBehaviour {
 				if (--health == 0) {
 					Die ();
 				}
-			}
-
-				
+			}								
 		}
 	}
 
@@ -36,7 +34,7 @@ public class Damage : MonoBehaviour {
 		UIManager.instance.HealthSpent (health);
 		if (health == 0) {
 			GameManager.instance.Defeat ();
-			Die ();
+			//Die ();
 		}
 	}
 
