@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager instance;
 
+
+
 	public List<GameObject> enemies;
 
 	[SerializeField] public float positiveLimitX;
@@ -36,7 +38,12 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void Defeat(){
-		
+		StartCoroutine ("GameOver");
+	}
+
+	IEnumerator GameOver(){
+		yield return new WaitForSecondsRealtime (1f);
+		SceneManager.LoadScene ("Defeat");
 	}
 
 	void Victory(){

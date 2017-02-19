@@ -77,6 +77,7 @@ public class Damage : MonoBehaviour {
 	[ContextMenu("Die")]
 	public void Die(){
 
+		SoundManager.instance.PlaySound (SoundManager.instance.slap);
 		for (int i = transform.childCount - 1; i >= 0 ; i--) {
 			KillMe (transform.GetChild (i));
 		}

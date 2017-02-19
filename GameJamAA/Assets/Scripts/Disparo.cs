@@ -14,6 +14,10 @@ public class Disparo : MonoBehaviour {
 	GameObject pistola;
 	[SerializeField]
 	int tamboresMaximos;
+	[SerializeField]
+	AudioClip clipTiro;
+	[SerializeField]
+	AudioClip recarga;
 
 	Ray rayo;
 	RaycastHit hit;
@@ -114,6 +118,7 @@ public class Disparo : MonoBehaviour {
 	}
 
 	void ShootingParams(){
+		SoundManager.instance.PlaySound (clipTiro);
 		_municion--;
 		UIManager.instance.AmmoSpent (_municion);
 		//GetComponent<Animator> ().SetFloat ("AnimParam", 2f); //dispara
@@ -147,6 +152,7 @@ public class Disparo : MonoBehaviour {
 
 	void Recargando()
 	{
+		SoundManager.instance.PlaySound (recarga);
 		if (numeroTambores >= 1) {
 			anim.SetTrigger ("Reload");
 			_municion = tamanyoTamborRevolver;
@@ -158,6 +164,7 @@ public class Disparo : MonoBehaviour {
 	}
 
 	public void RefillAmmo(){
+		SoundManager.instance.PlaySound (recarga);
 		UIManager.instance.RefillMagazines ();
 		numeroTambores = tamboresMaximos;
 	}
