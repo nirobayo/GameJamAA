@@ -29,6 +29,8 @@ public class IA : MonoBehaviour {
 	GameObject player;
 	[SerializeField]
 	bool Esqueleto;
+	[SerializeField]
+	bool serpinete;
 
 	Damage damage;
 
@@ -44,27 +46,27 @@ public class IA : MonoBehaviour {
 	void Update () 
 	{		
 		pistolaEnemigo = pistola;
-		if (Damage.healthRunaway <= 2) 
-		{
+		if (Damage.healthRunaway <= 2 && !serpinete) {
 			Huyendo ();
-		}
-		else 
-		{
-			if (!buscando) {
-				if (navMesh.remainingDistance < 0.25)
-					Siguiente ();	
-				if (navMesh.remainingDistance > 5 && detectado) {				
-					Corriendo ();
-				} else if (navMesh.remainingDistance < 5 && detectado) {
-					DisparoParado ();
-				} 
+		} else {
+			if (!serpinete) {
+				if (!buscando) {
+					if (navMesh.remainingDistance < 0.25)
+						Siguiente ();	
+					if (navMesh.remainingDistance > 5 && detectado) {				
+						Corriendo ();
+					} else if (navMesh.remainingDistance < 5 && detectado) {
+						DisparoParado ();
+					} 
+				} else {
+					Busqueda ();			
+				}
+			} else {
+				if (navMesh.remainingDistance < 1)
+				   Siguiente ();
 			}
-			else 
-			{
-				Busqueda ();			
-			}
-		}
 	}
+  }
 
 	void OnTriggerEnter(Collider other)
 	{		
@@ -100,6 +102,14 @@ public class IA : MonoBehaviour {
 			return;
 		navMesh.SetDestination (patrulla[Random.Range(0,patrulla.Length)].position);
 		navMesh.speed = 1;
+
+		if (serpinete) {
+			if (patrulla.Length == 0)
+				return;
+			Debug.Log ("Go");
+			navMesh.SetDestination (patrulla[Random.Range(0,patrulla.Length)].position);
+			navMesh.speed = 4;
+		}
 	}
 
 	void DisparoParado()
@@ -122,23 +132,23 @@ public class IA : MonoBehaviour {
 		navMesh.SetDestination (player.transform.position);
 
 	}
+
 	[ContextMenu("Huida")]
 	void Huyendo()
 	{
-		
+		if (!serpinete) {
 			buscando = false;
-		gameObject.tag="Cobarde";
+		   
 			if (anim.GetFloat ("Estados") != 5) {
 				anim.SetFloat ("Estados", 5);	
 			}	
-		if (!Esqueleto) 
-		{
-			navMesh.speed = 3;
-			navMesh.SetDestination (new Vector3 (transform.position.x, transform.position.y, -transform.localPosition.z * -2));
-		} 
-		else 
-		{
-			StartCoroutine ("MuerteEsqueleto");	
+			if (!Esqueleto) {
+				navMesh.speed = 3;
+				navMesh.SetDestination (new Vector3 (transform.position.x, transform.position.y, -transform.localPosition.z * -2));
+			} else {
+				StartCoroutine ("MuerteEsqueleto");	
+			}
+			gameObject.tag = "Cobarde";
 		}
 	}
 
