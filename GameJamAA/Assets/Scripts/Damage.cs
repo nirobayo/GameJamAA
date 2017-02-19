@@ -6,7 +6,7 @@ using UnityEngine;
 public class Damage : MonoBehaviour {
 
 	[SerializeField] int maxHealth;
-	float deathExplosionForce = 20f;
+	float deathExplosionForce = 5f;
 	float deathExplosionRadius = 20f;
 	[SerializeField]
 	GameObject sombrero;
@@ -27,7 +27,10 @@ public class Damage : MonoBehaviour {
 					cor.r += 0.25f;
 					sombrero.GetComponent<Renderer> ().material.color = cor;
 				}
-				if (--health == 0) {
+				if (--health <= 0) {
+					if (gameObject.CompareTag ("Enemy")) {
+						GameManager.instance.RemoveEnemy (gameObject);
+					}
 					Die ();
 				}
 			}								
@@ -45,7 +48,7 @@ public class Damage : MonoBehaviour {
 					sombrero.GetComponent<Renderer> ().material.color = cor;
 					health = health - 2;
 				}
-				if (health == 0) {
+				if (health <= 0) {
 					Die ();
 				}
 			}	
@@ -71,7 +74,7 @@ public class Damage : MonoBehaviour {
 		}
 	}
 		
-	//[ContextMenu("Die")]
+	[ContextMenu("Die")]
 	public void Die(){
 
 		for (int i = transform.childCount - 1; i >= 0 ; i--) {
@@ -104,12 +107,12 @@ public class Damage : MonoBehaviour {
 		} else {
 			item.SetParent (null);
 			Rigidbody rigid = item.gameObject.AddComponent<Rigidbody> ();
-			rigid.AddExplosionForce (deathExplosionForce, transform.position, deathExplosionRadius);
+
 			BoxCollider boxCollider = item.gameObject.GetComponent<BoxCollider> ();
 			if (boxCollider == null) {
 				item.gameObject.AddComponent<BoxCollider> ();
 			}
-
+			rigid.AddExplosionForce (deathExplosionForce, transform.position, deathExplosionRadius);
 			item.gameObject.tag = "Floor";
 		}
 

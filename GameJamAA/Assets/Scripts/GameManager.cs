@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager instance;
 
-	List<GameObject> enemies;
+	public List<GameObject> enemies;
 
 	[SerializeField] public float positiveLimitX;
 	[SerializeField] public float negativeLimitX;
