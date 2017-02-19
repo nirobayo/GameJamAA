@@ -26,8 +26,9 @@ public class Damage : MonoBehaviour {
 					Color cor = sombrero.GetComponent<Renderer> ().material.color;
 					cor.r += 0.25f;
 					sombrero.GetComponent<Renderer> ().material.color = cor;
+					health--;
 				}
-				if (--health <= 0) {
+				if (health <= 0) {
 					if (gameObject.CompareTag ("Enemy")) {
 						GameManager.instance.RemoveEnemy (gameObject);
 					}
@@ -65,9 +66,9 @@ public class Damage : MonoBehaviour {
 	}
 
 	void DamagePlayerExplosion(){
-		--health;
-		Debug.Log ("Daño"+ transform.name);
+		health = health - 2;
 		UIManager.instance.HealthSpent (health);
+		UIManager.instance.HealthSpent (health+1);
 		if (health == 0) {
 			GameManager.instance.Defeat ();
 			Die ();
@@ -81,8 +82,7 @@ public class Damage : MonoBehaviour {
 		for (int i = transform.childCount - 1; i >= 0 ; i--) {
 			KillMe (transform.GetChild (i));
 		}
-
-		Destroy (gameObject);
+		//Destroy (gameObject);
 
 		/*for (int i = 0; i < transform.childCount; i++) {
 			Rigidbody rigid = transform.GetChild (i).gameObject.AddComponent<Rigidbody> ();
@@ -108,7 +108,6 @@ public class Damage : MonoBehaviour {
 		} else {
 			item.SetParent (null);
 			Rigidbody rigid = item.gameObject.AddComponent<Rigidbody> ();
-
 			BoxCollider boxCollider = item.gameObject.GetComponent<BoxCollider> ();
 			if (boxCollider == null) {
 				item.gameObject.AddComponent<BoxCollider> ();

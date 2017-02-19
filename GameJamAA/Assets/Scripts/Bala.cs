@@ -39,7 +39,6 @@ public class Bala : MonoBehaviour {
 
 	void OnCollisionEnter(Collision hit)
 	{		
-		Debug.Log("Choca");
 		gameObject.SetActive (false);
 
 		if (!Enemigo) {

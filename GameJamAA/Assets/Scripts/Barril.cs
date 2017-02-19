@@ -20,6 +20,13 @@ public class Barril : MonoBehaviour {
 			explosion.SetActive (true);
 			explosion.GetComponent<SphereCollider> ().enabled = true;
 			explosion.GetComponent<SphereCollider> ().radius = 6;
+			StartCoroutine ("Boom");
 		}
+	}
+
+	IEnumerator Boom()
+	{
+		yield return new WaitForSeconds (2);
+		Destroy (gameObject);
 	}
 }
