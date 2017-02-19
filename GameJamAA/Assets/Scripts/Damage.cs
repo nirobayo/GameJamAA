@@ -8,7 +8,8 @@ public class Damage : MonoBehaviour {
 	[SerializeField] int maxHealth;
 	float deathExplosionForce = 20f;
 	float deathExplosionRadius = 20f;
-
+	[SerializeField]
+	GameObject sombrero;
 	int health;
 	public static float healthRunaway;
 
@@ -21,25 +22,57 @@ public class Damage : MonoBehaviour {
 			if (gameObject.CompareTag ("Player")) {
 				DamagePlayer ();
 			} else {
+				if (gameObject.CompareTag ("Enemy")) {
+					Color cor = sombrero.GetComponent<Renderer> ().material.color;
+					cor.r += 0.25f;
+					sombrero.GetComponent<Renderer> ().material.color = cor;
+				}
 				if (--health == 0) {
 					Die ();
 				}
 			}								
 		}
+
 	}
 
-	[ContextMenu("DamagePlayer!")]
+	void OnTriggerEnter(Collider other){
+		if (other.gameObject.CompareTag ("Barril")) {
+			if (gameObject.CompareTag ("Player")) {
+				DamagePlayerExplosion();
+			} else {
+				if (gameObject.CompareTag ("Enemy")) {
+					Color cor = sombrero.GetComponent<Renderer> ().material.color;
+					cor.r += 0.25f;
+					sombrero.GetComponent<Renderer> ().material.color = cor;
+					health = health - 2;
+				}
+				if (health == 0) {
+					Die ();
+				}
+			}	
+		}
+	}
+	//[ContextMenu("DamagePlayer!")]
 	void DamagePlayer(){
 		health--;
 		UIManager.instance.HealthSpent (health);
 		if (health == 0) {
 			GameManager.instance.Defeat ();
-			//Die ();
+			Die ();
 		}
 	}
 
-
-	[ContextMenu("Die")]
+	void DamagePlayerExplosion(){
+		--health;
+		Debug.Log ("Daño"+ transform.name);
+		UIManager.instance.HealthSpent (health);
+		if (health == 0) {
+			GameManager.instance.Defeat ();
+			Die ();
+		}
+	}
+		
+	//[ContextMenu("Die")]
 	void Die(){
 
 		for (int i = transform.childCount - 1; i >= 0 ; i--) {
@@ -67,7 +100,7 @@ public class Damage : MonoBehaviour {
 				KillMe (item.GetChild (j));
 			}
 		}
-		if (item.GetComponent<MeshRenderer> () == null) {
+		if (item.GetComponent<MeshRenderer> () == null && item.GetComponent<Camera>()==null) {
 			Destroy (item.gameObject);
 		} else {
 			item.SetParent (null);

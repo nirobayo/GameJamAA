@@ -42,8 +42,8 @@ public class Bala : MonoBehaviour {
 		gameObject.SetActive (false);
 
 		if (!Enemigo) {
-			transform.position = GameObject.Find ("Pistola").transform.position;
-			transform.rotation = GameObject.Find ("Pistola").transform.rotation;
+			transform.position = pistola.transform.position;
+			transform.rotation = pistola.transform.rotation;
 		} else {
 			transform.position = IA.pistolaEnemigo.transform.position;
 			transform.rotation = IA.pistolaEnemigo.transform.rotation;
@@ -57,8 +57,8 @@ public class Bala : MonoBehaviour {
 		gameObject.SetActive (false);
 
 		if (!Enemigo) {
-			transform.position = GameObject.Find ("Pistola").transform.position;
-			transform.rotation = GameObject.Find ("Pistola").transform.rotation;
+			transform.position = pistola.transform.position;
+			transform.rotation = pistola.transform.rotation;
 		} else {
 			transform.position = IA.pistolaEnemigo.transform.position;
 			transform.rotation = IA.pistolaEnemigo.transform.rotation;
