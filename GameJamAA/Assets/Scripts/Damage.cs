@@ -49,7 +49,7 @@ public class Damage : MonoBehaviour {
 					sombrero.GetComponent<Renderer> ().material.color = cor;
 					health = health - 2;
 				}
-				if (health == 0) {
+				if (health <= 0) {
 					Die ();
 				}
 			}	
@@ -75,7 +75,7 @@ public class Damage : MonoBehaviour {
 		}
 	}
 		
-	//[ContextMenu("Die")]
+	[ContextMenu("Die")]
 	public void Die(){
 
 		for (int i = transform.childCount - 1; i >= 0 ; i--) {
@@ -108,12 +108,12 @@ public class Damage : MonoBehaviour {
 		} else {
 			item.SetParent (null);
 			Rigidbody rigid = item.gameObject.AddComponent<Rigidbody> ();
-			rigid.AddExplosionForce (deathExplosionForce, transform.position, deathExplosionRadius);
+
 			BoxCollider boxCollider = item.gameObject.GetComponent<BoxCollider> ();
 			if (boxCollider == null) {
 				item.gameObject.AddComponent<BoxCollider> ();
 			}
-
+			rigid.AddExplosionForce (deathExplosionForce, transform.position, deathExplosionRadius);
 			item.gameObject.tag = "Floor";
 		}
 
