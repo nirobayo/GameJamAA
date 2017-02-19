@@ -18,7 +18,9 @@ public class Damage : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision other){
+		
 		if (other.gameObject.CompareTag ("Bala")) {
+			Debug.Log ("Colisiona");
 			if (gameObject.CompareTag ("Player")) {
 				DamagePlayer ();
 			} else {
@@ -26,9 +28,8 @@ public class Damage : MonoBehaviour {
 					Color cor = sombrero.GetComponent<Renderer> ().material.color;
 					cor.r += 0.25f;
 					sombrero.GetComponent<Renderer> ().material.color = cor;
-					health--;
 				}
-				if (health <= 0) {
+				if (--health <= 0) {
 					if (gameObject.CompareTag ("Enemy")) {
 						GameManager.instance.RemoveEnemy (gameObject);
 					}
@@ -82,7 +83,7 @@ public class Damage : MonoBehaviour {
 		for (int i = transform.childCount - 1; i >= 0 ; i--) {
 			KillMe (transform.GetChild (i));
 		}
-		//Destroy (gameObject);
+		Destroy (gameObject);
 
 		/*for (int i = 0; i < transform.childCount; i++) {
 			Rigidbody rigid = transform.GetChild (i).gameObject.AddComponent<Rigidbody> ();
