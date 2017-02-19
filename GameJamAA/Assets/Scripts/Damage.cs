@@ -18,7 +18,9 @@ public class Damage : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision other){
+		
 		if (other.gameObject.CompareTag ("Bala")) {
+			Debug.Log ("Colisiona");
 			if (gameObject.CompareTag ("Player")) {
 				DamagePlayer ();
 			} else {

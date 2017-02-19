@@ -152,8 +152,9 @@ public class Disparo : MonoBehaviour {
 
 	void Recargando()
 	{
-		SoundManager.instance.PlaySound (recarga);
+		
 		if (numeroTambores >= 1) {
+			SoundManager.instance.PlaySound (recarga);
 			anim.SetTrigger ("Reload");
 			_municion = tamanyoTamborRevolver;
 			numeroTambores--;
