@@ -9,7 +9,7 @@ public class EliminarCobardes : MonoBehaviour {
 
 	void OnTriggerEnter(Collider malditoCobarde)
 	{
-		if (malditoCobarde.CompareTag ("Enemy")) 
+		if (malditoCobarde.CompareTag ("Cobarde")) 
 		{
 			damage = malditoCobarde.GetComponent<Damage> ();
 			damage.Die();

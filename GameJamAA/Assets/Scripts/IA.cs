@@ -127,6 +127,7 @@ public class IA : MonoBehaviour {
 	{
 		
 			buscando = false;
+		gameObject.tag="Cobarde";
 			if (anim.GetFloat ("Estados") != 5) {
 				anim.SetFloat ("Estados", 5);	
 			}	
@@ -191,6 +192,7 @@ public class IA : MonoBehaviour {
 	IEnumerator MuerteEsqueleto()
 	{
 		yield return new WaitForSeconds (1);
+		GameManager.instance.RemoveEnemy (gameObject);
 		damage.Die ();
 	}
 }
