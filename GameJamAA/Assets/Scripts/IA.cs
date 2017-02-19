@@ -27,7 +27,10 @@ public class IA : MonoBehaviour {
 	[SerializeField]
 	GameObject sombrero;
 	GameObject player;
+	[SerializeField]
+	bool Esqueleto;
 
+	Damage damage;
 
 	void Start()
 	{
@@ -35,6 +38,7 @@ public class IA : MonoBehaviour {
 		navMesh = GetComponent<NavMeshAgent> ();
 		Siguiente ();
 		anim = GetComponent<Animator> ();
+		damage = GetComponent<Damage> ();
 	}
 
 	void Update () 
@@ -121,13 +125,20 @@ public class IA : MonoBehaviour {
 	[ContextMenu("Huida")]
 	void Huyendo()
 	{
-		buscando = false;
-		if (anim.GetFloat ("Estados") != 5 ) {
-			anim.SetFloat ("Estados", 5);	
+		
+			buscando = false;
+			if (anim.GetFloat ("Estados") != 5) {
+				anim.SetFloat ("Estados", 5);	
+			}	
+		if (!Esqueleto) 
+		{
+			navMesh.speed = 3;
+			navMesh.SetDestination (new Vector3 (transform.position.x, transform.position.y, -transform.localPosition.z * -2));
+		} 
+		else 
+		{
+			StartCoroutine ("MuerteEsqueleto");	
 		}
-		//transform.LookAt (GameObject.FindWithTag ("Player").transform);	
-		navMesh.speed = 3;
-		navMesh.SetDestination (new Vector3(transform.position.x,transform.position.y,-transform.localPosition.z * -2));
 	}
 
 	void Disparo()
@@ -175,5 +186,11 @@ public class IA : MonoBehaviour {
 		if (anim.GetFloat ("Estados") != 0) {
 			anim.SetFloat ("Estados", 0);	
 		}
+	}
+
+	IEnumerator MuerteEsqueleto()
+	{
+		yield return new WaitForSeconds (1);
+		damage.Die ();
 	}
 }

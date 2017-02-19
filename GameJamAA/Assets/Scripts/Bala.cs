@@ -47,6 +47,7 @@ public class Bala : MonoBehaviour {
 		} else {
 			transform.position = IA.pistolaEnemigo.transform.position;
 			transform.rotation = IA.pistolaEnemigo.transform.rotation;
+			Destroy (gameObject);
 		}
 	}
 
@@ -62,6 +63,7 @@ public class Bala : MonoBehaviour {
 		} else {
 			transform.position = IA.pistolaEnemigo.transform.position;
 			transform.rotation = IA.pistolaEnemigo.transform.rotation;
+			Destroy (gameObject);
 		}
 	}
 }
