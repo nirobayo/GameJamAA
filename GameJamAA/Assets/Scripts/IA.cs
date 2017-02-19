@@ -118,7 +118,7 @@ public class IA : MonoBehaviour {
 		navMesh.SetDestination (player.transform.position);
 
 	}
-		
+	[ContextMenu("Huida")]
 	void Huyendo()
 	{
 		buscando = false;

@@ -73,7 +73,7 @@ public class Damage : MonoBehaviour {
 	}
 		
 	//[ContextMenu("Die")]
-	void Die(){
+	public void Die(){
 
 		for (int i = transform.childCount - 1; i >= 0 ; i--) {
 			KillMe (transform.GetChild (i));
