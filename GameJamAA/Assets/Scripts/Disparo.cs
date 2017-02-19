@@ -86,7 +86,7 @@ public class Disparo : MonoBehaviour {
 			else
 			{
 				Cursor.lockState = CursorLockMode.None;
-				Cursor.visible=true;
+				Cursor.visible = true;
 			}	
 		}
 		#endif
