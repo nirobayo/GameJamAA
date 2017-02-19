@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class MenuPause : MonoBehaviour {
 
 	[SerializeField]
 	GameObject CanvasPause;
-
+	[SerializeField]
+	AudioMixer audioM;
 	bool pause;
 
 	void Update () 
@@ -14,11 +16,13 @@ public class MenuPause : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.Escape))
 			pause = !pause;
 
-		if (pause)
-			PauseOn();
-		else
-			PauseOff();
-
+		if (pause) {
+			PauseOn ();
+			//audioM ("Master", -80);
+			//audioM.audioMixer.SetFloat ("Pause", 0);
+		} else {
+			PauseOff ();
+		}
 
 	}
 
