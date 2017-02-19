@@ -32,8 +32,26 @@ public class Damage : MonoBehaviour {
 				}
 			}								
 		}
+
 	}
 
+	void OnTriggerEnter(Collider other){
+		if (other.gameObject.CompareTag ("Barril")) {
+			if (gameObject.CompareTag ("Player")) {
+				DamagePlayerExplosion();
+			} else {
+				if (gameObject.CompareTag ("Enemy")) {
+					Color cor = sombrero.GetComponent<Renderer> ().material.color;
+					cor.r += 0.25f;
+					sombrero.GetComponent<Renderer> ().material.color = cor;
+					health = health - 2;
+				}
+				if (health == 0) {
+					Die ();
+				}
+			}	
+		}
+	}
 	//[ContextMenu("DamagePlayer!")]
 	void DamagePlayer(){
 		health--;
@@ -44,7 +62,16 @@ public class Damage : MonoBehaviour {
 		}
 	}
 
-
+	void DamagePlayerExplosion(){
+		--health;
+		Debug.Log ("Daño"+ transform.name);
+		UIManager.instance.HealthSpent (health);
+		if (health == 0) {
+			GameManager.instance.Defeat ();
+			Die ();
+		}
+	}
+		
 	//[ContextMenu("Die")]
 	void Die(){
 
