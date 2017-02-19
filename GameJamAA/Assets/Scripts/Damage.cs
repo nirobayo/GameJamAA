@@ -32,7 +32,6 @@ public class Damage : MonoBehaviour {
 				}
 			}								
 		}
-
 	}
 
 	void OnTriggerEnter(Collider other){

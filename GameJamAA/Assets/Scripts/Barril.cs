@@ -14,8 +14,8 @@ public class Barril : MonoBehaviour {
 			GetComponent<Rigidbody> ().isKinematic = false;
 			GetComponent<Rigidbody> ().AddExplosionForce (1000, transform.position, 10);
 			explosion.SetActive (true);
-			GetComponent<SphereCollider> ().enabled = true;
-			GetComponent<SphereCollider> ().radius = 6;
+			explosion.GetComponent<SphereCollider> ().enabled = true;
+			explosion.GetComponent<SphereCollider> ().radius = 6;
 		}
 	}
 }
