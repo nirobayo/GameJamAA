@@ -6,7 +6,7 @@ using UnityEngine;
 public class Damage : MonoBehaviour {
 
 	[SerializeField] int maxHealth;
-	float deathExplosionForce = 20f;
+	float deathExplosionForce = 5f;
 	float deathExplosionRadius = 20f;
 	[SerializeField]
 	GameObject sombrero;
@@ -27,7 +27,10 @@ public class Damage : MonoBehaviour {
 					cor.r += 0.25f;
 					sombrero.GetComponent<Renderer> ().material.color = cor;
 				}
-				if (--health == 0) {
+				if (--health <= 0) {
+					if (gameObject.CompareTag ("Enemy")) {
+						GameManager.instance.RemoveEnemy (gameObject);
+					}
 					Die ();
 				}
 			}								
